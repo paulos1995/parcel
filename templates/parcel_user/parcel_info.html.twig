@@ -1,0 +1,53 @@
+
+    <div class="container">
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>{{ "Id"|trans }}</th>
+                <td>{{ parcel.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Barcode"|trans }}</th>
+                <td>{{ parcel.barcodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Weight"|trans }}</th>
+                <td>{{ parcel.weight }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Size"|trans }}</th>
+                <td>{{ parcel.size }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Price"|trans }}</th>
+                <td>{{ parcel.price }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Title"|trans }}</th>
+                <td>{{ parcel.title }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Location"|trans }}</th>
+                <td>{% if parcel.category %}{{ parcel.category.location }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>{{ "Scan file"|trans }}</th>
+                <td>{% if parcel.originalName %}
+                    <a href="{{ path('parcel_file_download', {'id': parcel.id}) }}"
+                       class="">{{ parcel.originalName }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ "Created"|trans }}</th>
+                <td>{{ parcel.created ? parcel.created|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            {% if parcel.scanOrdered %}
+            <tr>
+                <th>{{ "Scan order date"|trans }}</th>
+                <td>{{ parcel.scanOrdered ? parcel.scanOrdered|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "Access denied"|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ "Access denied"|trans }}</h1>
+
+    <div>
+
+        <div class="alert alert-warning alert-dismissible niezaszer" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            <p>{{ "You do not have access to this resource."|trans }}</p>
+
+            {% if is_granted('ROLE_USER') and app.user %}
+
+
+            {% else %}
+
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+{% endblock %}

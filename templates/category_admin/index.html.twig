@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+    <h1>{{ "Categories"|trans }}</h1>
+
+    <p><a href="{{ path('category_admin_new') }}" class="btn btn-success">{{ "Create new"|trans }}</a>
+    </p>
+
+
+    {{ form_start(form, {'action': path('category_admin_index'), 'method': 'GET'}) }}
+
+    <div class="row">
+        <div class="col-md-2">
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.location) }}
+        </div>
+
+        <div class="col-md-1">
+            <label style="min-width: 100px;"> &nbsp; </label>
+            <button class="btn btn-primary btn-block">{{ "Filter"|trans }}</button>
+
+        </div>
+        <div class="col-md-1">
+            <label style="min-width: 100px;"> &nbsp; </label>
+            <a href="{{ path('parcel_admin_index') }}"
+               class="btn btn-dark">{{ "Reset filter"|trans }}</a>
+
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>Id</th>
+            <th{% if pagination.isSorted('Category.name') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Name'|trans, 'Category.name') }}
+            </th>
+            <th{% if pagination.isSorted('Location.name') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Location'|trans, 'Location.name') }}
+            </th>
+            <th{% if pagination.isSorted('Owner.username') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Owner'|trans, 'Owner.username') }}
+            </th>
+            <th{% if pagination.isSorted('ScanPlan.name') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'ScanPlan'|trans, 'ScanPlan.name') }}
+            </th>
+            <th{% if pagination.isSorted('Category.Created') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Created'|trans, 'Category.created') }}
+            </th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.location }}</td>
+                <td>{% if category.owner %}<a href="{{ path('user_admin_show', {'id': category.owner.id}) }}"
+                                                  class="">{{ category.owner }}</a>
+                    {% endif %}</td>
+                <td>{{ category.scanPlan|trans }}</td>
+                <td>{{ category.created ? category.created|date('Y-m-d H:i') : '' }}</td>
+                <td>
+                    <a href="{{ path('category_admin_show', {'id': category.id}) }}"
+                       class="btn btn-sm btn-primary">{{ "btnShow"|trans }}</a>
+                    <a href="{{ path('category_admin_edit', {'id': category.id}) }}"
+                       class="btn btn-sm btn-primary">{{ "btnEdit"|trans }}</a>
+                    <a href="{{ path('parcel_admin_index', {'fi[category]': category.id}) }}"
+                       class="btn btn-sm btn-secondary">{{ "Parcels"|trans }}</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

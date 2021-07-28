@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "Parcel"|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ "Parcel"|trans }}</h1>
+    {% include 'parcel_user/parcel_info.html.twig' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="{{ path('parcel_user_index', {'id': parcel.category.id}) }}"
+                   class="btn btn-secondary btn-block">{{ "Back to list"|trans }}</a>
+            </div>
+            <div class="col-md-6">
+
+                {% if (not parcel.category.scan) and (not parcel.scanOrdered) %}
+                <a href="{{ path('parcel_user_order_scan', {'category': parcel.category.id, 'parcel': parcel.id}) }}"
+                   class="btn btn-primary btn-block">{{ "Order scan"|trans }}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

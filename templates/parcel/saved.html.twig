@@ -1,0 +1,93 @@
+{% block body %}
+    <form action="#">
+        <fieldset>
+            <div class="row parcel_row">
+                <div class="col-md-2">
+                    <div class="form-group"><label for="parcel_title" class="required">Title</label>
+                        <input type="text"
+                               id="parcel_title{{ dummyFormNumber }}"
+                               name="parcel[title]"
+                               readonly class="form-control-plaintext"
+                               value="{{ parcel.title }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group"><label class="" for="parcel_category">Category</label>
+                        <input type="text"
+                               id="parcel_category{{ dummyFormNumber }}"
+                               name="parcel[category]"
+                               readonly class="form-control-plaintext"
+                               value="{{ parcel.category }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group"><label class="" for="parcel_status">Status</label>
+                        <input type="text"
+                               id="parcel_status{{ dummyFormNumber }}"
+                               name="parcel[status]"
+                               readonly class="form-control-plaintext"
+                               value="{{ parcel.status }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group"><label class="" for="parcel_status">Status</label>
+                        <input type="text"
+                               name="parcel[file]"
+                               id="parcel_file{{ dummyFormNumber }}"
+                               readonly class="form-control-plaintext"
+                               value="{{ parcel.originalName }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group"><label for="parcel_barcodeNumber">Barcode number</label>
+                        <input type="text"
+                               name="parcel[barcodeNumber]"
+                               id="parcel_barcodeNumber{{ dummyFormNumber }}"
+                               readonly class="form-control-plaintext"
+                               value="{{ parcel.barcodeNumber }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group"><label for="parcel_barcodeNumber">Weight</label>
+                        <input type="text"
+                               name="parcel[barcodeNumber]"
+                               id="parcel_barcodeNumber{{ dummyFormNumber }}"
+                               readonly class="form-control-plaintext"
+                               value="{{ parcel.weight }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group"><label for="parcel_barcodeNumber">Size</label>
+                        <input type="text"
+                               name="parcel[barcodeNumber]"
+                               id="parcel_barcodeNumber{{ dummyFormNumber }}"
+                               readonly class="form-control-plaintext"
+                               value="{{ parcel.size }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group"><label for="parcel_barcodeNumber">Price</label>
+                        <input type="text"
+                               name="parcel[barcodeNumber]"
+                               id="parcel_barcodeNumber{{ dummyFormNumber }}"
+                               readonly class="form-control-plaintext"
+                               value="{{ parcel.price }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group"><label for="parcel_id">Id</label>
+                        <input type="text"
+                               name="parcel[id]"
+                               id="parcel_id{{ dummyFormNumber }}"
+                               readonly class="form-control-plaintext"
+                               value="{{ parcel.id }}">
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+    </form>
+
+
+
+{% endblock %}

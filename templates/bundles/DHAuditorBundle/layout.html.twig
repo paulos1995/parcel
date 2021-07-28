@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+
+{% include 'navbar.html.twig' %}
+
+
+<div class="main_content">
+    {% for flash_message in app.session.flashbag.get('danger') %}
+        <div class="alert alert-danger alert-dismissible niezaszer" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            {{ flash_message|raw }}
+        </div>
+    {% endfor %}
+    {% for flash_message in app.session.flashbag.get('info') %}
+        <div class="alert alert-info alert-dismissible niezaszer" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            {{ flash_message|raw }}
+        </div>
+    {% endfor %}
+    {% for flash_message in app.session.flashbag.get('warning') %}
+        <div class="alert alert-warning alert-dismissible niezaszer" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            {{ flash_message|raw }}
+        </div>
+    {% endfor %}
+    {% for flash_message in app.session.flashbag.get('success') %}
+        <div class="alert alert-success alert-dismissible niezaszer" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            {{ flash_message|raw }}
+        </div>
+    {% endfor %}
+    {% block body %}
+    {% endblock %}
+
+    {% block dh_auditor_content %}{% endblock %}
+</div>
+
+</body>
+</html>

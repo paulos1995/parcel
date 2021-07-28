@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "Parcels handover"|trans }} - {{ application_name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ "Parcels handover"|trans }}</h1>
+
+    {{ form_start(filterForm, {'method': 'GET'}) }}
+    <div class="row">
+        <div class="col-md-3">
+            {{ form_row(filterForm.category) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(filterForm.statuses) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(filterForm.barcodes) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.weight) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.size) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.price) }}
+        </div>
+        <div class="col-md-1">
+            <label style="min-width: 100px;"> &nbsp; </label>
+            <button class="btn btn-primary btn-block">{{ "Filter"|trans }}</button>
+
+        </div>
+        <div class="col-md-1">
+            <label style="min-width: 100px;"> &nbsp; </label>
+            <a href="{{ path('parcel_admin_handover') }}"
+               class="btn btn-dark">{{ "Reset filter"|trans }}</a>
+
+        </div>
+    </div>
+    {{ form_end(filterForm) }}
+
+    {% if selectForm is defined and selectForm.parcels|length>0 %}
+        {{ form_start(selectForm, {'method': 'POST', 'attr': {'target':'_blank'}}) }}
+        {{ form_errors(selectForm.parcels) }}
+
+        <table class="table table-bordered handover-table" data-controller="handover-index">
+            <thead class="thead-light">
+            <tr>
+                <th>
+                    <input type="button" value="check all" class="check btn btn-sm btn-success" /> {{ 'Title'|trans }}
+                </th>
+                <th>
+                    {{ 'Category'|trans }}
+                </th>
+                <th>
+                    {{ 'Status'|trans }}
+                </th>
+                <th>
+                    {{ 'Scan file'|trans }}
+                </th>
+                <th>
+                    {{ 'Barcode number'|trans }}
+                </th>
+                <th>
+                    {{ 'Created'|trans }}
+                </th>
+                <th>{{ "Actions"|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for parcelField in selectForm.parcels %}
+                {% set index = parcelField.vars.value %}
+
+                {% set parcel = parcels[index] %}
+                <tr>
+                    <td>{{ form_row(parcelField) }}</td>
+                    <td>{% if parcel.category %}
+                            <a href="{{ path('category_admin_show', {'id': parcel.category.id}) }}"
+                               class="">{{ parcel.category }}</a>
+                        {% endif %}
+                    </td>
+                    <td>{{ parcel.status }}</td>
+                    <td>
+                        {% if parcel.originalName %}
+                            <a href="{{ path('parcel_file_download', {'id': parcel.id}) }}"
+                               class="">{{ parcel.originalName }}</a>
+                        {% endif %}
+                    </td>
+                    <td>{{ parcel.barcodeNumber }}</td>
+                    <td>{{ parcel.created ? parcel.created|date('Y-m-d H:i') : '' }}</td>
+                    <td>
+                        <a href="{{ path('parcel_admin_show', {'id': parcel.id}) }}"
+                           class="btn btn-sm btn-success">{{ "btnShow"|trans }}</a>
+                        <a href="{{ path('parcel_admin_edit', {'id': parcel.id}) }}"
+                           class="btn btn-sm btn-primary">{{ "btnEdit"|trans }}</a>
+
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+        {# pagination #}
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        {{ form_end(selectForm) }}
+    {% endif %}
+
+{% endblock %}

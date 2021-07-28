@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "Users"|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ "Users"|trans }}</h1>
+
+    <p><a href="{{ path('user_admin_new') }}" class="btn btn-success">{{ "Create new"|trans }}</a>
+    </p>
+
+    {{ form_start(form, {'action': path('user_admin_index'), 'method': 'GET'}) }}
+
+    <div class="row">
+        <div class="col-md-2">
+            {{ form_row(form.username) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.firstName) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.lastName) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.email) }}
+        </div>
+        <div class="col-md-1">
+            <label style="min-width: 100px;"> &nbsp; </label>
+            <button class="btn btn-primary btn-block">{{ "Filter"|trans }}</button>
+
+        </div>
+        <div class="col-md-1">
+            <label style="min-width: 100px;"> &nbsp; </label>
+            <a href="{{ path('user_admin_index') }}"
+               class="btn btn-dark">{{ "Reset filter"|trans }}</a>
+
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th{% if pagination.isSorted('User.id') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Id'|trans, 'User.id') }}
+            </th>
+            <th{% if pagination.isSorted('User.username') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Username'|trans, 'User.username') }}
+            </th>
+            <th{% if pagination.isSorted('User.firstName') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'First name'|trans, 'User.firstName') }}
+            </th>
+            <th{% if pagination.isSorted('User.lastName') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Last name'|trans, 'User.lastName') }}
+            </th>
+            <th{% if pagination.isSorted('User.email') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Email'|trans, 'User.email') }}
+            </th>
+            <th{% if pagination.isSorted('User.enabled') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Enabled'|trans, 'User.enabled') }}
+            </th>
+            <th>{{ "Roles"|trans }}</th>
+            <th{% if pagination.isSorted('User.created') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Created'|trans, 'User.created') }}
+            </th>
+            <th{% if pagination.isSorted('User.updated') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Updated'|trans, 'User.updated') }}
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.enabled ? 'Yes' : 'No' }}</td>
+                <td>{% for role in user.roles %}
+                        <span class="badge badge-info">{{ role|trans }}</span>
+                    {% endfor %}
+                </td>
+                <td>{{ user.created ? user.created|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.updated ? user.updated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('user_admin_show', {'id': user.id}) }}"
+                       class="btn btn-sm btn-primary">{{ "btnShow"|trans }}</a>
+                    <a href="{{ path('user_admin_edit', {'id': user.id}) }}"
+                       class="btn btn-sm btn-primary">{{ "btnEdit"|trans }}</a>
+                    {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
+                        <a href="{{ path('home', {'_switch_user': user.username}) }}"
+                           class="btn btn-sm btn-dark">{{ "Impersonate"|trans }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

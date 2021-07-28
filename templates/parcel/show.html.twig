@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "Parcel"|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ "Parcel"|trans }}</h1>
+    <div class="container-fluid">
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>{{ "Id"|trans }}Id</th>
+                <td>{{ parcel.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Title"|trans }}</th>
+                <td>{{ parcel.title }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Barcode"|trans }}</th>
+                <td>{{ parcel.barcodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Weigth"|trans }}</th>
+                <td>{{ parcel.weight }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Size"|trans }}</th>
+                <td>{{ parcel.size }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Price"|trans }}</th>
+                <td>{{ parcel.price }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Category"|trans }}</th>
+                <td><a href="{{ path('category_admin_show', {'id': parcel.category.id}) }}"
+                       class="">{{ parcel.category }}</a></td>
+            </tr>
+            <tr>
+                <th>{{ "Location"|trans }}</th>
+                <td>{% if parcel.category %}{{ parcel.category.location }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>{{ "Scan"|trans }}</th>
+                <td>{% if parcel.originalName %}
+                    <a href="{{ path('parcel_file_download', {'id': parcel.id}) }}"
+                       class="">{{ parcel.originalName }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>{{ "Created"|trans }}</th>
+                <td>{{ parcel.created ? parcel.created|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>{{ "Updated"|trans }}</th>
+                <td>{{ parcel.updated ? parcel.updated|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <a href="{{ path('parcel_admin_index') }}"
+                   class="btn btn-secondary btn-block">{{ "Back to list"|trans }}</a>
+            </div>
+            <div class="col-md-2">
+                <a href="{{ path('dh_auditor_show_entity_history', {'id': parcel.id, 'entity': 'App-Entity-Parcel'}) }}"
+                   class="btn btn-outline-info btn-block">{{ "Audit"|trans }}</a>
+            </div>
+            <div class="col-md-2">
+                {{ include('parcel/_delete_form.html.twig') }}
+            </div>
+            <div class="col-md-2">
+                <a href="{{ path('parcel_admin_edit', {'id': parcel.id}) }}"
+                   class="btn btn-primary btn-block">{{ "Edit"|trans }}</a>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

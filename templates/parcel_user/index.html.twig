@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "Parcels"|trans }} - {{ application_name }}{% endblock %}
+
+{% block body %}
+    <h1>Parcels</h1>
+
+    {{ form_start(form, {'action': path('parcel_user_index', {'id':category.id}), 'method': 'GET'}) }}
+
+    <div class="row">
+        <div class="col-md-2">
+            {{ form_row(form.title) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.status) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.barcodeNumber) }}
+        </div>
+        <div class="col-md-1">
+            <label style="min-width: 100px;"> &nbsp; </label>
+            <button class="btn btn-primary btn-block">{{ "Filter"|trans }}</button>
+
+        </div>
+        <div class="col-md-1">
+            <label style="min-width: 100px;"> &nbsp; </label>
+            <a href="{{ path('parcel_admin_index') }}"
+               class="btn btn-dark">{{ "Reset filter"|trans }}</a>
+
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th{% if pagination.isSorted('parcel.Title') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Title'|trans, 'Parcel.title') }}
+            </th>
+            <th{% if pagination.isSorted('parcel.Category') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Category'|trans, 'Category.name') }}
+            </th>
+            <th{% if pagination.isSorted('parcel.Status') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Status'|trans, 'ParcelStatus.name') }}
+            </th>
+            <th{% if pagination.isSorted('parcel.originalName') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Scan file'|trans, 'Parcel.originalName') }}
+            </th>
+            <th{% if pagination.isSorted('parcel.BarcodeNumber') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Barcode number'|trans, 'Parcel.barcodeNumber') }}
+            </th>
+            <th{% if pagination.isSorted('parcel.Weight') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Weight'|trans, 'Parcel.weight') }}
+            </th>
+            <th{% if pagination.isSorted('parcel.Size') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Size'|trans, 'Parcel.size') }}
+            </th>
+            <th{% if pagination.isSorted('parcel.Price') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Price'|trans, 'Parcel.price') }}
+            </th>
+            <th{% if pagination.isSorted('parcel.Created') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Created'|trans, 'Parcel.created') }}
+            </th>
+            <th{% if pagination.isSorted('parcel.ScanOrdered') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Scan ordered'|trans, 'Parcel.scanOrdered') }}
+            </th>
+            <th>{{ "Actions"|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for parcel in parcels %}
+            <tr>
+                <td>{{ parcel.title }}</td>
+                <td>{{ parcel.category }}</td>
+                <td>{{ parcel.status }}</td>
+                <td>
+                    {% if parcel.originalName %}
+                        <a href="{{ path('parcel_file_download', {'id': parcel.id}) }}"
+                           class="">{{ parcel.originalName }}</a>
+                    {% endif %}
+                </td>
+                <td>{{ parcel.barcodeNumber }}</td>
+                <td>{{ parcel.weight }}</td>
+                <td>{{ parcel.size }}</td>
+                <td>{{ parcel.price }}</td>
+                <td>{{ parcel.created ? parcel.created|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ parcel.scanOrdered ? 'Yes'|trans : 'No'|trans }}</td>
+                <td>
+                    <a href="{{ path('parcel_user_show', {'category': parcel.category.id, 'parcel': parcel.id}) }}"
+                       class="btn btn-sm btn-success">{{ "btnShow"|trans }}</a>
+                    {% if (not parcel.category.scan) and (not parcel.scanOrdered) %}
+                        <a href="{{ path('parcel_user_order_scan', {'category': parcel.category.id, 'parcel': parcel.id}) }}"
+                           class="btn btn-sm btn-primary">{{ "Order scan"|trans }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
