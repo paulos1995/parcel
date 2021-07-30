@@ -7,3 +7,4 @@ Use symfony5, php8.
 ####php -S 127.0.0.1:8000 -t public
 ####Creare admin in console:
 ####php bin/console app:add-user email password
+#### User: p.b@gmail.com Pasword: 1234
